@@ -19,9 +19,9 @@ create_all_tables <- function(con, rawdat_dir) {
   import_tables_from_csvs(con = con,
                           csv_dir = rawdat_dir)
   add_cns_to_db(con)
-  # add_qa_flags_to_db(con)
-  # add_info_table_to_db(con)
-  # add_annual_estimates_to_db(con)
-  # add_saplings_to_db(con)
+   add_qa_flags_to_db(con)
+   add_info_table_to_db(con)
+   add_annual_estimates_to_db(con)
+   add_saplings_to_db(con)
   
 }
