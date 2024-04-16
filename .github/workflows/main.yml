@@ -13,13 +13,19 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
-            any::tidyverse
+            any::tidyr
             any::duckdb
             any::arrow
             any::here
+            any::DBI
+            any::stringr
+            any::purrr
 
       - name: Check out repository
         uses: actions/checkout@v3
-        
-      - name: Import data
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/00-forestTIME_setup.R")'        
+      - name: Download data
         run: Rscript -e 'source("scripts/01a-download_files_from_DataMart.R")'
+      - name: Create db
+        run: Rscript -e 'source("scripts/01b-create_database.R")'
