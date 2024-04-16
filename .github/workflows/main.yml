@@ -13,7 +13,8 @@ jobs:
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           packages: |
-            any::tidyverse 
+            any::tidyverse
+            any::duckdb
 
       - name: Check out repository
         uses: actions/checkout@v3
