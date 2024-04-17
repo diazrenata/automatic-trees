@@ -3,7 +3,7 @@ on:
     branches: main
 
 jobs:
-  import-data:
+  set-up-db:
     runs-on: ubuntu-latest
     steps:
       - name: Set up R
@@ -29,3 +29,10 @@ jobs:
         run: Rscript -e 'source("scripts/01a-download_files_from_DataMart.R")'
       - name: Create db
         run: Rscript -e 'source("scripts/01b-create_database.R")'
+      - name: Commit results
+          run: |
+            git config --local user.email "actions@github.com"
+            git config --local user.name "GitHub Actions"
+            git add data/db/foresttime-to-share.duckdb
+            git commit -m 'Data updated' 
+            git push origin 
