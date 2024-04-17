@@ -30,8 +30,9 @@ jobs:
       - name: Create db
         run: Rscript -e 'source("scripts/01b-create_database.R")'
       - name: Commit results
-        run: git config --local user.email "actions@github.com"
-        run: git config --local user.name "GitHub Actions"
-        run: git add data/db/foresttime-to-share.duckdb
-        run: git commit -m 'Data updated'
-        run: git push origin 
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add data/db/foresttime-to-share.duckdb
+          git commit -m 'Data updated'
+          git push origin 
