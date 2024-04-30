@@ -1,0 +1,43 @@
+---
+title: "Extract annualized measurements"
+format: gfm
+editor: source
+---
+
+# Pulling trees
+
+```{r}
+
+source(here::here("R", "query_tables_db_fxns.R"))
+source(here::here("R", "query_annualized.R"))
+
+con <- connect_to_tables(here::here("data", "db", "foresttime-to-share.duckdb"))
+
+```
+
+```{r}
+
+ct_annualized <- query_annualized(con,
+                                      conditions = create_conditions(
+                                        STATECD == 9 ),
+                                      variables = c("DIA_est", "HT_est", "ACTUALHT_est", "YEAR", "ADFORCD", "SPCD_CORR", "SPCD_FLAG"))
+
+```
+
+```{r}
+library(ggplot2)
+
+ggplot(filter(ct_annualized, PLOT_COMPOSITE_ID == "9_1_11_105"), aes(YEAR, DIA_est, group = TREE_COMPOSITE_ID)) +
+  geom_line() +
+  geom_point() +
+  theme_bw()
+
+```
+
+```{r}
+
+dbDisconnect(con, shutdown = TRUE)
+
+```
+
+

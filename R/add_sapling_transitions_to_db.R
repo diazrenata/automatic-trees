@@ -103,6 +103,17 @@ add_saplings_to_db <- function(con) {
                     sapling_not_sampled,
                     sapling_missing_data),
                   .f = c(prop = (\(x) x / PREV_live_sapling)))) |>
+    select(PLOT_COMPOSITE_ID,
+           INVYR,
+           PREV_INVYR,
+           timespan,
+           PREV_live_sapling,
+           sapling_sapling_prop,
+           sapling_tree_prop,
+           sapling_removed_prop,
+           presumed_dead_prop,
+           sapling_not_sampled_prop,
+           sapling_missing_data_prop) |>
     collect()
   
   

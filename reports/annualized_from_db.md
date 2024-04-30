@@ -1,0 +1,64 @@
+# Extract annualized measurements
+
+
+# Pulling trees
+
+``` r
+source(here::here("R", "query_tables_db_fxns.R"))
+```
+
+    Warning: package 'duckdb' was built under R version 4.3.3
+
+    Loading required package: DBI
+
+    Warning: package 'DBI' was built under R version 4.3.2
+
+    Warning: package 'dplyr' was built under R version 4.3.2
+
+
+    Attaching package: 'dplyr'
+
+    The following objects are masked from 'package:stats':
+
+        filter, lag
+
+    The following objects are masked from 'package:base':
+
+        intersect, setdiff, setequal, union
+
+``` r
+source(here::here("R", "query_annualized.R"))
+
+con <- connect_to_tables(here::here("data", "db", "foresttime-to-share.duckdb"))
+```
+
+``` r
+ct_annualized <- query_annualized(con,
+                                      conditions = create_conditions(
+                                        STATECD == 9 ),
+                                      variables = c("DIA_est", "HT_est", "ACTUALHT_est", "YEAR", "ADFORCD", "SPCD_CORR", "SPCD_FLAG"))
+```
+
+    Joining with `by = join_by(TREE_COMPOSITE_ID)`
+    Joining with `by = join_by(TREE_COMPOSITE_ID, SPCD_CORR, TREE_CN)`
+    Joining with `by = join_by(PLOT_COMPOSITE_ID, PLOT, STATECD, COUNTYCD, PLT_CN, INVYR, CYCLE)`
+    Joining with `by = join_by(PLOT_COMPOSITE_ID, PLOT, STATECD, COUNTYCD, PLT_CN, CONDID, INVYR, CYCLE, UNITCD, SUBCYCLE)`
+
+``` r
+library(ggplot2)
+```
+
+    Warning: package 'ggplot2' was built under R version 4.3.3
+
+``` r
+ggplot(filter(ct_annualized, PLOT_COMPOSITE_ID == "9_1_11_105"), aes(YEAR, DIA_est, group = TREE_COMPOSITE_ID)) +
+  geom_line() +
+  geom_point() +
+  theme_bw()
+```
+
+![](annualized_from_db_files/figure-commonmark/unnamed-chunk-3-1.png)
+
+``` r
+dbDisconnect(con, shutdown = TRUE)
+```
