@@ -42,6 +42,10 @@ if(!all(rowSums(saplings[,6:11]) %in% c(NA, 1))) {
   warning("Sapling proportions do not sum to 1")
 }
 
+if(!all(saplings$PREV_INVYR < saplings$INVYR)) {
+  warning("Sapling years out of order")
+}
+
 warning("Here is just a warning")
 
 # RMD needs to think of additional relevant checks. 

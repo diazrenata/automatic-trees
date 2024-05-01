@@ -102,6 +102,13 @@ add_saplings_to_db <- function(con) {
                     presumed_dead,
                     sapling_not_sampled,
                     sapling_missing_data),
+                  .f = (\(x) ifelse(is.na(x), 0, x)))) |>
+    mutate(across(c(sapling_sapling,
+                    sapling_tree,
+                    sapling_removed,
+                    presumed_dead,
+                    sapling_not_sampled,
+                    sapling_missing_data),
                   .f = c(prop = (\(x) x / PREV_live_sapling)))) |>
     select(PLOT_COMPOSITE_ID,
            INVYR,
