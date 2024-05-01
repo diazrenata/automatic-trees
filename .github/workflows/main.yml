@@ -20,6 +20,7 @@ jobs:
             any::DBI
             any::stringr
             any::purrr
+            any::dbplyr
 
       - name: Check out repository
         uses: actions/checkout@v3
