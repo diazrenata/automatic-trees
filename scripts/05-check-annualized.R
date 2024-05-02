@@ -13,17 +13,17 @@ if (!file.exists(database_path)) {
 # Connect to database
 con <- dbConnect(duckdb(dbdir = database_path))
 
-# Get annualized for CT
+# Get annualized for AZ
 
-ct_annual <- tbl(con, "tree_annualized") |>
-  filter(substr(TREE_COMPOSITE_ID, 1, 1) == "9") |>
+az_annual <- tbl(con, "tree_annualized") |>
+  filter(substr(TREE_COMPOSITE_ID, 1, 1) == "4") |>
   arrange(TREE_COMPOSITE_ID, YEAR) |>
   collect()
 
 
 
 trees <- tbl(con, "tree") |>
-  filter(STATECD == 9) |>
+  filter(STATECD == 4) |>
   mutate(ACTUALHT = as.numeric(ACTUALHT)) |>
   left_join(tbl(con, "tree_info_composite_id")) |>
   filter(NRECORDS > 1) |>
@@ -48,7 +48,7 @@ trees <- tbl(con, "tree") |>
          ACTUALHT_slope = (next_ACTUALHT - ACTUALHT) / ((next_INVYR + 1) - INVYR)) 
 
 all_years <- tbl(con, "tree") |>
-  filter(STATECD == 9) |>
+  filter(STATECD == 4) |>
   select(TREE_COMPOSITE_ID) |>
   collect() |>
   distinct() |>
@@ -72,7 +72,7 @@ trees_annual_measures <- all_years |>
 
 dbDisconnect(con, shutdown = TRUE)
 
-if(!(all.equal(trees_annual_measures, select(ct_annual, 1:8)))) {
+if(!(all.equal(trees_annual_measures, select(az_annual, 1:8)))) {
   warning("Annualized tables diverge")
 }
 
