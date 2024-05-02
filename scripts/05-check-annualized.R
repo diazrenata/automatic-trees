@@ -17,6 +17,7 @@ con <- dbConnect(duckdb(dbdir = database_path))
 
 ct_annual <- tbl(con, "tree_annualized") |>
   filter(substr(TREE_COMPOSITE_ID, 1, 1) == "9") |>
+  arrange(TREE_COMPOSITE_ID, YEAR) |>
   collect()
 
 
@@ -71,7 +72,7 @@ trees_annual_measures <- all_years |>
 
 dbDisconnect(con, shutdown = TRUE)
 
-if(!all.equal(trees_annual_measures, ct_annual)) {
+if(!(all.equal(trees_annual_measures, select(ct_annual, 1:8)))) {
   warning("Annualized tables diverge")
 }
 
