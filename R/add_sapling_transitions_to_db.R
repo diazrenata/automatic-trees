@@ -40,7 +40,18 @@ add_saplings_to_db <- function(con) {
     left_join(tbl(con, "cond") |>
                 select(PLT_CN, CONDID, COND_STATUS_CD))
   
+  
+  plot_census_years <- saplings_ever |>
+    select(PLOT_COMPOSITE_ID, INVYR) |>
+    distinct() |>
+    arrange(PLOT_COMPOSITE_ID, INVYR) |>
+    group_by(PLOT_COMPOSITE_ID) |>
+    mutate(EXPECTED_NEXT_INVYR = lead(INVYR, default = -1989),
+           EXPECTED_LAST_INVYR = lag(INVYR, default = -1989)) |>
+    ungroup()
+  
   sapling_changes <- saplings_ever |>
+    left_join(plot_census_years) |>
     arrange(TREE_COMPOSITE_ID, INVYR) |>
     group_by(TREE_COMPOSITE_ID) |>
     mutate(
@@ -48,6 +59,7 @@ add_saplings_to_db <- function(con) {
       PREV_STATUSCD = lag(STATUSCD, 1, default = -1989, order_by = INVYR),
       PREV_DIA = lag(DIA, 1, default = -1989, order_by = INVYR),
       NEXT_INVYR = lead(INVYR, 1, default = -1989, order_by = INVYR),
+      NEXT_CYCLE = lead(CYCLE, 1, default = -1989, order_by = INVYR),
       FIRST_INVYR = min(INVYR, na.rm = T),
       LAST_INVYR = max(INVYR, na.rm = T)
     ) |>
@@ -70,7 +82,10 @@ add_saplings_to_db <- function(con) {
       sapling_missing_data = PREV_DIA < 5 &&
         PREV_STATUSCD == 1 && STATUSCD == 1 && is.na(DIA),
       sapling_vanishes_next_year = DIA < 5 &&
-        STATUSCD == 1 && NEXT_INVYR == -1989
+        STATUSCD == 1 && NEXT_INVYR == -1989,
+      sapling_skipped_next_year = DIA < 5 &&
+        STATUSCD == 1 && NEXT_INVYR > EXPECTED_NEXT_INVYR,
+      sapling_was_skipped = PREV_INVYR < EXPECTED_LAST_INVYR && PREV_INVYR > 0
     ) |>
     mutate(across(contains("sapling"), as.numeric)) |>
     ungroup() 
@@ -88,9 +103,11 @@ add_saplings_to_db <- function(con) {
     mutate(
       PREV_live_sapling = lag(live_sapling, default = -1989, order_by = INVYR),
       sapling_vanished = lag(sapling_vanishes_next_year, default = -1989, order_by = INVYR),
+      sapling_skipped = lag(sapling_skipped_next_year, default = -1989, order_by = INVYR),
       PREV_INVYR = lag(INVYR, default = -1989, order_by = INVYR)
     ) |>
-    ungroup() 
+    ungroup()
+  
   
   sapling_transitions <- sapling_tallies |>
     filter(PREV_INVYR != -1989) |>
@@ -101,26 +118,32 @@ add_saplings_to_db <- function(con) {
                     sapling_removed,
                     presumed_dead,
                     sapling_not_sampled,
-                    sapling_missing_data),
+                    sapling_missing_data,
+                    sapling_skipped,
+                    sapling_was_skipped),
                   .f = (\(x) ifelse(is.na(x), 0, x)))) |>
+    mutate(PREV_live_and_skipped = PREV_live_sapling + sapling_was_skipped) |>
     mutate(across(c(sapling_sapling,
                     sapling_tree,
                     sapling_removed,
                     presumed_dead,
                     sapling_not_sampled,
-                    sapling_missing_data),
-                  .f = c(prop = (\(x) x / PREV_live_sapling)))) |>
+                    sapling_missing_data,
+                    sapling_skipped),
+                  .f = c(prop = (\(x) x / PREV_live_and_skipped)))) |>
     select(PLOT_COMPOSITE_ID,
            INVYR,
            PREV_INVYR,
            timespan,
            PREV_live_sapling,
+           PREV_live_and_skipped,
            sapling_sapling_prop,
            sapling_tree_prop,
            sapling_removed_prop,
            presumed_dead_prop,
            sapling_not_sampled_prop,
-           sapling_missing_data_prop) |>
+           sapling_missing_data_prop,
+           sapling_skipped_prop) |>
     collect()
   
   
