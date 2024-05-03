@@ -34,13 +34,6 @@ jobs:
         run: Rscript -e 'source("scripts/01b-create_database.R")'
       - name: Check db
         run: Rscript -e 'source("scripts/03-check_db.R")'
-      - name: Commit results
-        run: |
-          git config --local user.email "actions@github.com"
-          git config --local user.name "GitHub Actions"
-          git add data/db/foresttime-to-share.duckdb
-          git commit -m 'Data updated'
-          git push origin 
       - name: Upload db
         run: Rscript -e 'source("scripts/02-upload_db.R")'
       
