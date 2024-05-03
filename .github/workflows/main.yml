@@ -23,6 +23,7 @@ jobs:
             any::purrr
             any::dbplyr
             any::boxr
+            any::jose
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Set up directories
