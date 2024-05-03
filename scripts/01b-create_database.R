@@ -25,7 +25,7 @@ if (file.exists(database_path)) {
 con <- dbConnect(duckdb(dbdir = database_path))
 
 # Create database tables
-create_all_tables(con, rawdat_dir = csv_dir)
+create_all_tables(con, rawdat_dir = csv_dir, delete_downloads = T)
 
 # Clean up
 dbDisconnect(con, shutdown = TRUE)
