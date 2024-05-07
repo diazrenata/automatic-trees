@@ -29,8 +29,10 @@ add_annual_estimates_to_db <- function(con) {
     dbSendStatement(con, "CREATE TABLE all_invyrs AS SELECT * FROM all_invyrs")
   }
   
-  trees <- tbl(con, "tree") |>
+  trees <- tbl(con, "tree")  |>
     mutate(ACTUALHT = as.numeric(ACTUALHT),
+           HT = as.numeric(HT),
+           DIA = as.numeric(DIA),
            MORTYR = as.numeric(MORTYR),
            INVYR = as.numeric(INVYR)) |>
     left_join(tbl(con, "tree_info_composite_id")) |>
@@ -50,7 +52,7 @@ add_annual_estimates_to_db <- function(con) {
       DEATH,
       DAMAGE,
       DISTURBANCE
-    ) |>
+    )  |>
     group_by(TREE_COMPOSITE_ID) |>
     mutate(
       NRECORDS_NONA = n(),
@@ -76,7 +78,7 @@ add_annual_estimates_to_db <- function(con) {
       next_DIA = ifelse(is.na(next_DIA), DIA, next_DIA),
       next_HT = ifelse(is.na(next_HT), HT, next_HT),
       next_ACTUALHT = ifelse(is.na(next_ACTUALHT), ACTUALHT, next_ACTUALHT)
-    ) |>
+    ) |> 
     mutate(
       DIA_slope = (next_DIA - DIA) / INVYR_diff,
       HT_slope = (next_HT - HT) / INVYR_diff,
