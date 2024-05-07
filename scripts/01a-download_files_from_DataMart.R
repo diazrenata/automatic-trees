@@ -15,7 +15,7 @@ if (!dir.exists(csv_dir)) {
 # Specify which states to download ####
 
 # Or assign states_to_use to a few states:
-states_to_use <- c("WI", "MN") |>
+states_to_use <- c("AZ", "MT", "WY", "ID", "CT", "OH", "PA", "MD", "MA", "NJ", "VT", "NH", "RI", "ME", "CT", "WV", "NY", "IN", "IA", "IL", "MI", "MO", "WI", "MN") |>
   unique()
 
 # Specify whether to overwite existing downloaded files ####
