@@ -124,7 +124,7 @@ sapling_transitions <- sapling_tallies |>
   
 dbDisconnect(con, shutdown = TRUE)
 
-if(!all.equal(sapling_transitions, ct_saplings)) {
+if(!all.equal(sapling_transitions, ct_saplings[,colnames(sapling_transitions)])) {
   warning("Sapling transition tables diverge")
 }
 
