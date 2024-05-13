@@ -15,43 +15,46 @@ if (!dir.exists(csv_dir)) {
 # Specify which states to download ####
 
 # Or assign states_to_use to a few states:
-states_to_use <-
-  c("AL",
-    "AK",
-    "AZ",
-    "CA",
-    "CO",
-    "CT",
-    "DE",
-    "FL",
-    "GA",
-    "ID",
-    "IL",
-    "IN",
-    "IA",
-    "KS",
-    "KY",
-    "LA",
-    "MT",
-    "WY",
-    "OH",
-    "PA",
-    "MD",
-    "MA",
-    "NJ",
-    "VT",
-    "NH",
-    "RI",
-    "ME",
-    "CT",
-    "WV",
-    "NY",
-    "MI",
-    "MO",
-    "WI",
-    "MN"
-  ) |>
-  unique()
+
+states_to_use <- c("AZ", "CT")
+
+# states_to_use <-
+#   c("AL",
+#     "AK",
+#     "AZ",
+#     "CA",
+#     "CO",
+#     "CT",
+#     "DE",
+#     "FL",
+#     "GA",
+#     "ID",
+#     "IL",
+#     "IN",
+#     "IA",
+#     "KS",
+#     "KY",
+#     "LA",
+#     "MT",
+#     "WY",
+#     "OH",
+#     "PA",
+#     "MD",
+#     "MA",
+#     "NJ",
+#     "VT",
+#     "NH",
+#     "RI",
+#     "ME",
+#     "CT",
+#     "WV",
+#     "NY",
+#     "MI",
+#     "MO",
+#     "WI",
+#     "MN"
+#   ) |>
+#   unique()
 
 # Specify whether to overwite existing downloaded files ####
 # overwrite_downloads will skip downloading existing files.
