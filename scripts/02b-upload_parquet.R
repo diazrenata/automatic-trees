@@ -8,5 +8,4 @@ parquet_paths <- list.files(here::here('data', 'parquet'),
 
 lapply(parquet_paths,
        box_ul,
-       dir_id =  "261941293561",
-       overwrite = TRUE)
+       dir_id =  "261941293561")
