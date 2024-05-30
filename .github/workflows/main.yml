@@ -34,6 +34,8 @@ jobs:
         run: Rscript -e 'source("scripts/01b-create_database.R")'
       - name: Check db
         run: Rscript -e 'source("scripts/03-check_db.R")'
-      - name: Upload db
-        run: Rscript -e 'source("scripts/02-upload_db.R")'
+      - name: Save db as parquet
+        run: Rscript -e 'source("scripts/02a-db_to_parquet.R")'
+      - name: Upload parquet files
+        run: Rscript -e 'source("scripts/02b-upload_parquet.R")'
       
