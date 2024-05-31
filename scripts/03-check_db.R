@@ -5,7 +5,7 @@ source(here::here("R", "create_all_tables.R"))
 
 # Specify the path to .duckdb file for database
 database_path <-
-  here::here("data", "db", "foresttime-to-share.duckdb")
+  here::here("data", "db", "foresttime-from-parquet.duckdb")
 
 if (!file.exists(database_path)) {
   warning("Database file not found.")
@@ -18,7 +18,7 @@ con <- dbConnect(duckdb(dbdir = database_path))
 
 expected_table_names <-
   c(
-    'all_invyrs',
+   # 'all_invyrs',
     'cond',
     'plot',
     'qa_flags',

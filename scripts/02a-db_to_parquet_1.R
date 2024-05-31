@@ -33,5 +33,8 @@ dbExecute(con,
 dbExecute(con,
           "COPY tree_cns TO 'data/parquet/tree_cns1.parquet' (FORMAT PARQUET)")
 
+dbExecute(con,
+          "COPY all_invyrs TO 'data/parquet/all_invyrs1.parquet' (FORMAT PARQUET)")
+
 # Clean up
 dbDisconnect(con, shutdown = TRUE)

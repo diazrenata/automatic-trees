@@ -4,7 +4,7 @@ library(dplyr)
 
 # Specify the path to .duckdb file for database
 database_path <-
-  here::here("data", "db", "foresttime-to-share.duckdb")
+  here::here("data", "db", "foresttime-from-parquet.duckdb")
 
 if (!file.exists(database_path)) {
   warning("Database file not found.")
@@ -16,14 +16,14 @@ con <- dbConnect(duckdb(dbdir = database_path))
 # Get annualized for AZ
 
 az_annual <- tbl(con, "tree_annualized") |>
-  filter(substr(TREE_COMPOSITE_ID, 1, 1) == "4") |>
+  filter(substr(TREE_COMPOSITE_ID, 1, 1) == "9") |>
   arrange(TREE_COMPOSITE_ID, YEAR) |>
   collect()
 
 
 
 trees <- tbl(con, "tree") |>
-  filter(STATECD == 4) |>
+  filter(STATECD == 9) |>
   mutate(ACTUALHT = as.numeric(ACTUALHT)) |>
   left_join(tbl(con, "tree_info_composite_id")) |>
   filter(NRECORDS > 1) |>
@@ -48,7 +48,7 @@ trees <- tbl(con, "tree") |>
          ACTUALHT_slope = (next_ACTUALHT - ACTUALHT) / ((next_INVYR + 1) - INVYR)) 
 
 all_years <- tbl(con, "tree") |>
-  filter(STATECD == 4) |>
+  filter(STATECD == 9) |>
   select(TREE_COMPOSITE_ID) |>
   collect() |>
   distinct() |>
