@@ -1,6 +1,11 @@
 library(duckdb)
 library(DBI)
 
+if(!dir.exists(here::here("data", "db"))) {
+  dir.create(here::here("data", "db"), recursive = T)
+}
+
+
 # Specify the path to .duckdb file for database
 database_path <-
   here::here("data", "db", "foresttime-from-parquet.duckdb")
