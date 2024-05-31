@@ -70,7 +70,7 @@ jobs:
       - name: Upload parquet files
         run: Rscript -e 'source("scripts/02b-upload_parquet.R")'
   db:
-    needs: bifurcated-1, bifurcated-2
+    needs: [bifurcated-1, bifurcated-2]
     runs-on: ubuntu-latest
     env:
       BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
