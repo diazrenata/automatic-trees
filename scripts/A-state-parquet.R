@@ -10,6 +10,10 @@ if(!dir.exists(here::here("data", "db"))) {
   dir.create(here::here("data", "db"), recursive = T)
 }
 
+if(!dir.exists(here::here("data", "parquet"))) {
+  dir.create(here::here("data", "parquet"), recursive = T)
+}
+
 # Download data ####
 
 csv_dir <- here::here("data", "rawdat", "state")
