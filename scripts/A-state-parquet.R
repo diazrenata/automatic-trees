@@ -1,4 +1,4 @@
-state_to_use = "AL"
+state_to_use = "CT"
 
 library(duckdb)
 library(DBI)
@@ -83,5 +83,5 @@ parquet_paths <- list.files(here::here('data', 'parquet'),
 
 lapply(parquet_paths,
        box_ul,
-       dir_id =  "267557279158")
+       dir_id =  "267590977321")
 
