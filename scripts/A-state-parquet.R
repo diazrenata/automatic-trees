@@ -1,17 +1,16 @@
 state_to_use = "AL"
 
-# This script downloads the TREE, PLOT, and COND tables from DataMart
-# and stores them as .csv files.
-
 library(duckdb)
 library(DBI)
 library(dplyr)
-source(here::here("scripts", "00-forestTIME_setup.R"))
 source(here::here("R", "download_csv_wrapper.R"))
 source(here::here("R", "create_all_tables.R"))
 
+if(!dir.exists(here::here("data", "db"))) {
+  dir.create(here::here("data", "db"), recursive = T)
+}
 
-# Create directory for raw data files ####
+# Download data ####
 
 csv_dir <- here::here("data", "rawdat", "state")
 
@@ -23,7 +22,7 @@ download_csv_from_datamart(states = state_to_use,
                            rawdat_dir = csv_dir,
                            overwrite = FALSE)
 
-# Create database 
+# Create database  ####
 
 # Specify the path to .duckdb file for database
 database_path <-
@@ -39,11 +38,7 @@ con <- dbConnect(duckdb(dbdir = database_path))
 # Create database tables
 create_all_tables(con, rawdat_dir = csv_dir, delete_downloads = T)
 
-
-# Connect to database
-con <- dbConnect(duckdb(dbdir = database_path))
-
-# Store parquets
+# Store parquets #### 
 
 tree_parquet_query <- paste0("COPY tree TO 'data/parquet/tree", state_to_use, ".parquet' (FORMAT PARQUET)")
 plot_parquet_query <- gsub("tree", "plot", tree_parquet_query)
@@ -74,8 +69,19 @@ dbExecute(con,
 dbExecute(con,
           all_invyrs_parquet_query)
 
-# Upload parquets
-
-source(here::here("scripts", "02b-upload_parquet.R"))
-
 dbDisconnect(con, shutdown = TRUE)
+
+# Upload parquets #### 
+
+library(boxr)
+box_auth_service(token_text = Sys.getenv("BOX_TOKEN_TEXT"))
+
+# Specify the parquet file paths
+
+parquet_paths <- list.files(here::here('data', 'parquet'),
+                            full.names = T)
+
+lapply(parquet_paths,
+       box_ul,
+       dir_id =  "267557279158")
+
