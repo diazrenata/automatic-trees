@@ -16,45 +16,11 @@ if (!dir.exists(csv_dir)) {
 
 # Or assign states_to_use to a few states:
 
-states_to_use <- c("CT")
+all_states <- read.csv(here::here("data", "fips.csv")) |>
+  filter(STATEFP != 9,
+         STATEFP < 60)
 
-# states_to_use <-
-#   c("AL",
-#     "AK",
-#     "AZ",
-#     "CA",
-#     "CO",
-#     "CT",
-#     "DE",
-#     "FL",
-#     "GA",
-#     "ID",
-#     "IL",
-#     "IN",
-#     "IA",
-#     "KS",
-#     "KY",
-#     "LA",
-#     "MT",
-#     "WY",
-#     "OH",
-#     "PA",
-#     "MD",
-#     "MA",
-#     "NJ",
-#     "VT",
-#     "NH",
-#     "RI",
-#     "ME",
-#     "CT",
-#     "WV",
-#     "NY",
-#     "MI",
-#     "MO",
-#     "WI",
-#     "MN"
-#   ) |>
-#   unique()
+states_to_use <- all_states$STATE[1:11]
 
 # Specify whether to overwite existing downloaded files ####
 # overwrite_downloads will skip downloading existing files.
