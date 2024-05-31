@@ -21,7 +21,7 @@ tree_info_composite_id_query <- gsub("tree", "tree_info_composite_id", tree_quer
 sapling_transitions_query <- gsub("tree", "sapling_transitions", tree_query)
 tree_annualized_query <- gsub("tree", "tree_annualized", tree_query)
 tree_cns_query <- gsub("tree", "tree_cns", tree_query)
-all_invyrs_query <- gsub("tree", "all_invyrs", tree_query)
+all_invyrs_query <- "CREATE TABLE all_invyrs AS SELECT * FROM read_parquet(['data/parquet/all_invyrs1.parquet'])"
 
 dbExecute(con,
           tree_query)

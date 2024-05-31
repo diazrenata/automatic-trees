@@ -18,7 +18,7 @@ con <- dbConnect(duckdb(dbdir = database_path))
 
 expected_table_names <-
   c(
-   # 'all_invyrs',
+    'all_invyrs',
     'cond',
     'plot',
     'qa_flags',
