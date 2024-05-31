@@ -8,7 +8,7 @@ if(!dir.exists(here::here("data", "db"))) {
 
 # Specify the path to .duckdb file for database
 database_path <-
-  here::here("data", "db", "foresttime-from-parquet.duckdb")
+  here::here("data", "db", "foresttime-from-state-parquet.duckdb")
 
 # Connect to database
 con <- dbConnect(duckdb(dbdir = database_path))
