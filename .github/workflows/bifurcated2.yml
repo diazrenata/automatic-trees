@@ -97,5 +97,11 @@ jobs:
         run: Rscript -e 'source("scripts/06a-download-parquet.R")'        
       - name: Create db
         run: Rscript -e 'source("scripts/06-create_db_from_parquet.R")'
+      - name: Check db
+        run: Rscript -e 'source("scripts/03-check_db.R")'
+      - name: Check saplings
+        run: Rscript -e 'source("scripts/04-check_saplings.R")'
+      - name: Check db
+        run: Rscript -e 'source("scripts/05-check-annualized.R")'
       - name: Upload db
         run: Rscript -e 'source("scripts/07-upload_parquet_db.R")'
