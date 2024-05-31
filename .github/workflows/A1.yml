@@ -153,7 +153,7 @@ jobs:
         uses: actions/checkout@v3
       - name: Set up directories
         run: Rscript -e 'source("scripts/parallels/ID-state-parquet.R")'
-  WY:
+  AR:
     runs-on: ubuntu-latest
     env:
       BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
@@ -177,7 +177,207 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Set up directories
-        run: Rscript -e 'source("scripts/parallels/WY-state-parquet.R")'
+        run: Rscript -e 'source("scripts/parallels/AR-state-parquet.R")'
+  AL:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/AL-state-parquet.R")'
+  AK:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/AK-state-parquet.R")'
+  CA:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/CA-state-parquet.R")'
+  CO:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/CO-state-parquet.R")'
+  DE:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/DE-state-parquet.R")'
+  FL:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/FL-state-parquet.R")'
+  GA:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/GA-state-parquet.R")'
+  HI:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/parallels/HI-state-parquet.R")'
   db:
     needs: [CT, MA, VT, AZ, MT, ID, WY]
     runs-on: ubuntu-latest
