@@ -16,7 +16,7 @@ if (!dir.exists(csv_dir)) {
 
 # Or assign states_to_use to a few states:
 
-states_to_use <- c("WY", "MT", "FL", "CO")
+states_to_use <- c("MA")
 
 # states_to_use <-
 #   c("AL",
