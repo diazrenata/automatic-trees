@@ -19,6 +19,8 @@ parquet_files <- paste0(
   gsub(pattern = "_cns", replacement = "") |>
   paste(collapse = "', '")
 
+all_invyrs_files <- paste0("data/parquet/", list.files(here::here("data", "parquet"), pattern = "all_invyrs")[1])
+
 tree_query <- paste0("CREATE TABLE tree AS SELECT * FROM read_parquet(['",
                      parquet_files,
                      "'])")
@@ -30,7 +32,7 @@ sapling_transitions_query <- gsub("tree", "sapling_transitions", tree_query)
 tree_annualized_query <- gsub("tree", "tree_annualized", tree_query)
 tree_cns_query <- gsub("tree", "tree_cns", tree_query)
 all_invyrs_query <- paste0("CREATE TABLE all_invyrs AS SELECT * FROM read_parquet(['",
-                           parquet_files[1],
+                           all_invyrs_files,
                            "'])") |>
   gsub(pattern = "tree", replacement = "all_invyrs")
 
