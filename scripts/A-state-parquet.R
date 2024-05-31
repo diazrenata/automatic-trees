@@ -10,9 +10,6 @@ if(!dir.exists(here::here("data", "db"))) {
   dir.create(here::here("data", "db"), recursive = T)
 }
 
-if(!dir.exists(here::here("data", "parquet"))) {
-  dir.create(here::here("data", "parquet"), recursive = T)
-}
 
 # Download data ####
 
@@ -52,7 +49,7 @@ tree_info_composite_id_parquet_query <- gsub("tree", "tree_info_composite_id", t
 sapling_transitions_parquet_query <- gsub("tree", "sapling_transitions", tree_parquet_query)
 tree_annualized_parquet_query <- gsub("tree", "tree_annualized", tree_parquet_query)
 tree_cns_parquet_query <- gsub("tree", "tree_cns", tree_parquet_query)
-all_invyrs_parquet_query <- "CREATE TABLE all_invyrs AS SELECT * FROM read_parquet(['data/parquet/all_invyrs1.parquet'])"
+all_invyrs_parquet_query <- gsub("tree", "all_invyrs", tree_parquet_query)
 
 dbExecute(con,
           tree_parquet_query)
