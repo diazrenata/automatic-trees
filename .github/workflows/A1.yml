@@ -27,7 +27,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Set up directories
-        run: Rscript -e 'source("scripts/paralells/CT-state-parquet.R")'
+        run: Rscript -e 'source("scripts/parallels/CT-state-parquet.R")'
   MA:
     runs-on: ubuntu-latest
     env:
@@ -52,7 +52,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Set up directories
-        run: Rscript -e 'source("scripts/paralells/MA-state-parquet.R")'
+        run: Rscript -e 'source("scripts/parallels/MA-state-parquet.R")'
   VT:
     runs-on: ubuntu-latest
     env:
@@ -77,7 +77,7 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Set up directories
-        run: Rscript -e 'source("scripts/paralells/VT-state-parquet.R")'
+        run: Rscript -e 'source("scripts/parallels/VT-state-parquet.R")'
   db:
     needs: [CT, MA, VT]
     runs-on: ubuntu-latest
