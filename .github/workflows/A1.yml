@@ -3,7 +3,7 @@ on:
     branches: v-paralell
 
 jobs:
-  bifurcated-1:
+  CT:
     runs-on: ubuntu-latest
     env:
       BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
@@ -27,4 +27,84 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v3
       - name: Set up directories
-        run: Rscript -e 'source("scripts/A-state-parquet.R")'
+        run: Rscript -e 'source("scripts/paralells/CT-state-parquet.R")'
+  MA:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/paralells/MA-state-parquet.R")'
+  VT:
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Set up directories
+        run: Rscript -e 'source("scripts/paralells/VT-state-parquet.R")'
+  db:
+    needs: [CT, MA, VT]
+    runs-on: ubuntu-latest
+    env:
+      BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}
+    steps:
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+      - name: Install packages
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::tidyr
+            any::duckdb
+            any::arrow
+            any::here
+            any::DBI
+            any::stringr
+            any::purrr
+            any::dbplyr
+            any::boxr
+            any::jose
+      - name: Check out repository
+        uses: actions/checkout@v3
+      - name: Download parquets
+        run: Rscript -e 'source("scripts/parallels/06a-download-state-parquet.R")'        
+      - name: Create db
+        run: Rscript -e 'source("scripts/parallels.06-create_db_from_parquet.R")'
+      - name: Upload db
+        run: Rscript -e 'source("scripts/parallels/07-upload_parquet_db.R")'
