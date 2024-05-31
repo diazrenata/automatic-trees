@@ -108,3 +108,9 @@ jobs:
         run: Rscript -e 'source("scripts/parallels/06-create_db_from_parquet.R")'
       - name: Upload db
         run: Rscript -e 'source("scripts/parallels/07-upload_parquet_db.R")'
+      - name: Check db
+        run: Rscript -e 'source("scripts/parallels/03-check_db.R")'
+      - name: Check saplings
+        run: Rscript -e 'source("scripts/parallels/04-check_saplings.R")'
+      - name: Check db
+        run: Rscript -e 'source("scripts/parallels/05-check-annualized.R")'
