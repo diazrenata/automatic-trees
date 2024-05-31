@@ -17,7 +17,7 @@ if (!dir.exists(csv_dir)) {
 # Or assign states_to_use to a few states:
 
 all_states <- read.csv(here::here("data", "fips.csv")) |>
-  filter(STATEFP != 9,
+  filter(STATEFP != 11,
          STATEFP < 60)
 
 states_to_use <- all_states$STATE[1:11]
