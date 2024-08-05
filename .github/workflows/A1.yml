@@ -1,6 +1,6 @@
 on:
   push:
-    branches: v-paralell
+    branches: main
 
 jobs:
   CT:
