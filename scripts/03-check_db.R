@@ -33,20 +33,21 @@ if (!(all(dbListTables(con) == expected_table_names))) {
   warning("Table names do not match expected table names.")
 }
 
-# # Check that sapling transitions sum to 1
+
+# Check that sapling transitions sum to 1
 
 saplings <- tbl(con, "sapling_transitions") |>
   collect()
 
 expected_rowsums <- ifelse(saplings$PREV_live_and_skipped > 0, 1, NA)
 
-# if(!all.equal(rowSums(saplings[,7:13]), expected_rowsums)) {
-#   warning("Sapling proportions do not sum to 1")
-# }
-# 
-# if(!all(saplings$PREV_INVYR < saplings$INVYR)) {
-#   warning("Sapling years out of order")
-# }
+if(!all.equal(rowSums(saplings[,7:13]), expected_rowsums)) {
+  warning("Sapling proportions do not sum to 1")
+}
+
+if(!all(saplings$PREV_INVYR < saplings$INVYR)) {
+  warning("Sapling years out of order")
+}
 
 warning("Here is just a warning")
 
