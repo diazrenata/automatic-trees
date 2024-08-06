@@ -1,0 +1,45 @@
+---
+title: "Troubleshooting rowsums != 1 in sapling transition tables"
+format: gfm
+editor: source
+---
+
+# Pulling trees
+
+
+```{r}
+
+source(here::here("R", "query_tables_db_fxns.R"))
+source(here::here("R", "query_saplings.R"))
+
+con <- connect_to_tables(here::here("data", "db", "foresttime-from-state-parquet.duckdb"))
+
+```
+
+```{r}
+
+saplings <- tbl(con, "sapling_transitions") |>
+  filter(INVYR != 9999) |>
+  collect()
+
+expected_rowsums <- ifelse(saplings$PREV_live_and_skipped > 0, 1, NA)
+
+all.equal(rowSums(saplings[,7:13]), expected_rowsums)
+
+weird_saplings <- saplings[ which(rowSums(saplings[,7:13]) != expected_rowsums), ]
+
+weird_saplings
+
+weird_saplings_no_9999 <- weird_saplings |>
+  filter(INVYR != 9999)
+
+```
+
+
+```{r}
+
+dbDisconnect(con, shutdown = TRUE)
+
+```
+
+
