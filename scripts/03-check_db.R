@@ -33,6 +33,7 @@ if (!(all(dbListTables(con) == expected_table_names))) {
   warning("Table names do not match expected table names.")
 }
 
+
 # Check that sapling transitions sum to 1
 
 saplings <- tbl(con, "sapling_transitions") |>

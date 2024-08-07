@@ -40,7 +40,7 @@ saplings <- tbl(con, "sapling_transitions") |>
 
 expected_rowsums <- ifelse(saplings$PREV_live_and_skipped > 0, 1, NA)
 
-if(!all.equal(rowSums(saplings[,7:13]), expected_rowsums)) {
+if(all.equal(rowSums(saplings[,7:13]), expected_rowsums) != TRUE) {
   warning("Sapling proportions do not sum to 1")
 }
 
