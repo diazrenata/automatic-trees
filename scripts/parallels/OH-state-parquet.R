@@ -73,7 +73,8 @@ dbExecute(con,
 dbDisconnect(con, shutdown = TRUE)
 
 # Upload parquets #### 
-
+if(exists("do_not_upload")) { 
+} else {
 library(boxr)
 box_auth_service(token_text = Sys.getenv("BOX_TOKEN_TEXT"))
 
@@ -85,4 +86,4 @@ parquet_paths <- list.files(here::here('data', 'parquet'),
 lapply(parquet_paths,
        box_ul,
        dir_id =  "267590977321")
-
+}
