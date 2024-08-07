@@ -16,54 +16,51 @@ import_tables_from_csvs <- function(con, csv_dir) {
     return()
   }
   
-  tree_file <- list.files(csv_dir, pattern = "_TREE.csv", full.names = T)
-  tree_columns <- readr::read_csv(tree_file, col_types = "c") |>
-    select(-c(CN, PLT_CN, PREV_TRE_CN, INVYR, STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE)) |>
-    head() |>
-    colnames() |>
-    paste0(collapse = ", ")
-  
-  
-  plot_file <- list.files(csv_dir, pattern = "_PLOT.csv", full.names = T)
-  plot_columns <- readr::read_csv(plot_file, col_types = "c") |>
-    select(-CN) |>
-    head() |>
-    colnames() |>
-    paste0(collapse = ", ")
-  
-  
-  cond_file <- list.files(csv_dir, pattern = "_COND.csv", full.names = T)
-  cond_columns <- readr::read_csv(cond_file, col_types = "c") |>
-    select(-c(CN)) |>
-    head() |>
-    colnames() |>
-    paste0(collapse = ", ")
-  
-  tree_query <- paste0(
-    "CREATE TABLE tree AS SELECT CN AS TREE_CN, PLT_CN, PREV_TRE_CN, INVYR, STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE, ",
-    tree_columns,
-    ", CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE) AS TREE_COMPOSITE_ID, CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT) AS PLOT_COMPOSITE_ID FROM '",
+  tree_query <-  paste0(
+    "CREATE TABLE tree AS SELECT * FROM read_csv('",
     csv_dir,
-    "/*_TREE.csv' WHERE (INVYR >= 2000.0)"
-  )
+    "/*_TREE.csv', header = true) WHERE (INVYR >= 2000.0)")
   
-  plot_query <- paste0(
-    "CREATE TABLE plot AS SELECT CN AS PLT_CN, ",
-    plot_columns,
-    ", CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT) AS PLOT_COMPOSITE_ID FROM '",
+  tree_name_query <- "ALTER TABLE tree RENAME COLUMN CN TO TREE_CN"
+  tree_concat_query <- "ALTER TABLE tree ADD COLUMN PLOT_COMPOSITE_ID TEXT"
+  tree_update_query <- "UPDATE tree SET PLOT_COMPOSITE_ID = CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT)"
+  tree_concat_query2 <- "ALTER TABLE tree ADD COLUMN TREE_COMPOSITE_ID TEXT"
+  tree_update_query2 <- "UPDATE tree SET TREE_COMPOSITE_ID = CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT, SUBP, TREE)"
+  
+  plot_query <-  paste0(
+    "CREATE TABLE plot AS SELECT * FROM read_csv('",
     csv_dir,
-    "/*_PLOT.csv' WHERE (INVYR >= 2000.0)")
+    "/*_PLOT.csv', types = {'ECO_UNIT_PNW': 'VARCHAR'}, header = true) WHERE (INVYR >= 2000.0)")
+  
+  plot_name_query <- "ALTER TABLE plot RENAME COLUMN CN TO PLT_CN"
+  plot_concat_query <- "ALTER TABLE plot ADD COLUMN PLOT_COMPOSITE_ID TEXT"
+  plot_update_query <- "UPDATE plot SET PLOT_COMPOSITE_ID = CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT)"
+  
   
   cond_query <- paste0(
-    "CREATE TABLE cond AS SELECT CN AS COND_CN, ",
-    cond_columns,
-    ", CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT) AS PLOT_COMPOSITE_ID FROM '",
+    "CREATE TABLE cond AS SELECT * FROM read_csv('",
     csv_dir,
-    "/*_COND.csv' WHERE (INVYR >= 2000.0)")
+    "/*_COND.csv', header = true, types = {'HABTYPCD1': 'VARCHAR', 'HABTYPCD2': 'VARCHAR'}) WHERE (INVYR >= 2000.0)")
+  
+  cond_name_query <- "ALTER TABLE cond RENAME COLUMN CN TO COND_CN"
+  cond_concat_query <- "ALTER TABLE cond ADD COLUMN PLOT_COMPOSITE_ID TEXT"
+  cond_update_query <- "UPDATE cond SET PLOT_COMPOSITE_ID = CONCAT_WS('_', STATECD, UNITCD, COUNTYCD, PLOT)"
   
   dbExecute(con, tree_query)
+  dbExecute(con, tree_name_query)
+  dbExecute(con, tree_concat_query)
+  dbExecute(con, tree_update_query)
+  dbExecute(con, tree_concat_query2)
+  dbExecute(con, tree_update_query2)
   dbExecute(con, plot_query)
-  dbExecute(con, cond_query)
+  dbExecute(con, plot_name_query)
+  dbExecute(con, plot_concat_query)
+  dbExecute(con, plot_update_query)
+  dbExecute(con, cond_query)  
+  dbExecute(con, cond_name_query)
+  dbExecute(con, cond_concat_query)
+  dbExecute(con, cond_update_query)
+  
   
   return()
   
