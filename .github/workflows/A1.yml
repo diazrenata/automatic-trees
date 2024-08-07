@@ -1,6 +1,6 @@
 on:
   push:
-    branches: saplings
+    branches: dynamic-columns
 
 jobs:
   CT:
