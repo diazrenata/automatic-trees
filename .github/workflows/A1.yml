@@ -1254,7 +1254,7 @@ jobs:
       - name: Set up directories
         run: Rscript -e 'source("scripts/parallels/WY-state-parquet.R")'
   db:
-    needs: [CT, MA, VT, AZ, MT, ID, WY, AL, AR, AK, CA, CO, DE, FL, GA, HI, IL, IN, IA, KS, KY, LA, ME, MD, MI, MS, MO, NE, NV, NH, NJ, NM, NY, NC, ND]
+    needs: [AK, AL, AR, AZ, CA, CO, CT, DE, FL, GA, HI, IA, ID, IL, IN, KS, KY, LA, MA, MD, ME, MI, MN, MO, MS, MT, NC, ND, NE, NH, NJ, NM, NV, NY, OH, OK, OR, PA, RI, SC, SD, TN, TX, UT, VA, VT, WA, WI, WV, WY]
     runs-on: ubuntu-latest
     env:
       BOX_TOKEN_TEXT: ${{ secrets.BOX_TOKEN_TEXT }}

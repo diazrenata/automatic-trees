@@ -19,7 +19,7 @@ import_tables_from_csvs <- function(con, csv_dir) {
   tree_query <-  paste0(
     "CREATE TABLE tree AS SELECT * FROM read_csv('",
     csv_dir,
-    "/*_TREE.csv', header = true) WHERE (INVYR >= 2000.0)")
+    "/*_TREE.csv', header = true, ignore_errors=true) WHERE (INVYR >= 2000.0)")
   
   tree_name_query <- "ALTER TABLE tree RENAME COLUMN CN TO TREE_CN"
   tree_concat_query <- "ALTER TABLE tree ADD COLUMN PLOT_COMPOSITE_ID TEXT"
@@ -30,7 +30,7 @@ import_tables_from_csvs <- function(con, csv_dir) {
   plot_query <-  paste0(
     "CREATE TABLE plot AS SELECT * FROM read_csv('",
     csv_dir,
-    "/*_PLOT.csv', types = {'ECO_UNIT_PNW': 'VARCHAR'}, header = true) WHERE (INVYR >= 2000.0)")
+    "/*_PLOT.csv', types = {'ECO_UNIT_PNW': 'VARCHAR'}, ignore_errors=true, header = true) WHERE (INVYR >= 2000.0)")
   
   plot_name_query <- "ALTER TABLE plot RENAME COLUMN CN TO PLT_CN"
   plot_concat_query <- "ALTER TABLE plot ADD COLUMN PLOT_COMPOSITE_ID TEXT"
@@ -40,7 +40,7 @@ import_tables_from_csvs <- function(con, csv_dir) {
   cond_query <- paste0(
     "CREATE TABLE cond AS SELECT * FROM read_csv('",
     csv_dir,
-    "/*_COND.csv', header = true, types = {'HABTYPCD1': 'VARCHAR', 'HABTYPCD2': 'VARCHAR'}) WHERE (INVYR >= 2000.0)")
+    "/*_COND.csv', header = true, ignore_errors = true, types = {'HABTYPCD1': 'VARCHAR', 'HABTYPCD2': 'VARCHAR'}) WHERE (INVYR >= 2000.0)")
   
   cond_name_query <- "ALTER TABLE cond RENAME COLUMN CN TO COND_CN"
   cond_concat_query <- "ALTER TABLE cond ADD COLUMN PLOT_COMPOSITE_ID TEXT"
