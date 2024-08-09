@@ -73,7 +73,7 @@ dbExecute(con,
 dbDisconnect(con, shutdown = TRUE)
 
 # Upload parquets #### 
-if(exists(do_not_upload)) {
+if(exists("do_not_upload")) {
 } else {
 library(boxr)
 box_auth_service(token_text = Sys.getenv("BOX_TOKEN_TEXT"))
