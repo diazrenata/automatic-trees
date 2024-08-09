@@ -1,4 +1,4 @@
-state_to_use = "AL"
+state_to_use = "MN"
 
 library(duckdb)
 library(DBI)
